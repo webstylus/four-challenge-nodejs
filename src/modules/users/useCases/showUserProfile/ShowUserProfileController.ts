@@ -6,8 +6,12 @@ class ShowUserProfileController {
   constructor(private showUserProfileUseCase: ShowUserProfileUseCase) {}
 
   handle(request: Request, response: Response): Response {
-    const { user_id } = request.params;
-    return response.json(this.showUserProfileUseCase.execute({ user_id }));
+    try {
+      const { user_id } = request.params;
+      return response.json(this.showUserProfileUseCase.execute({ user_id }));
+    } catch (e) {
+      return response.status(404).json({ message: e.message });
+    }
   }
 }
 
